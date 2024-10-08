@@ -24,8 +24,10 @@ jobs:
 
           cd output
           git init  # Initialize a new Git repository
+          
+          # Create gh-pages branch if it doesn't exist
+          git checkout -b gh-pages || echo "gh-pages branch already exists"
+          
           git add .  # Stage all files
           git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
           git push --force https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages:gh-pages
- 
-
