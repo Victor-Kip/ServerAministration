@@ -30,4 +30,6 @@ jobs:
           
           git add .  # Stage all files
           git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
-          git push --force https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages:gh-pages
+
+          # Push using GITHUB_TOKEN for authentication
+          git push --force https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages:gh-pages
