@@ -3,22 +3,20 @@ name: Deploy Collaborators Page
 on:
   push:
     branches:
-      - main  # Trigger the workflow when pushing to the main branch
+      - main  # Trigger the workflow on push to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Use the latest version of actions/checkout (v3.3.0 or later)
       - name: Checkout code
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3  # Use the latest version for compatibility with Node.js 20
         
-      # Use the latest version of peaceiris/actions-gh-pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v4  # Use the latest version for compatibility with Node.js 20
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./collaborators
-
+          publish_dir: ./collaborators-site  # Specify the directory to publish
+       
 
