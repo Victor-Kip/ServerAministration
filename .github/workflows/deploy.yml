@@ -3,7 +3,7 @@ name: Deploy Collaborators Page
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the main branch
+      - main
 
 jobs:
   deploy:
@@ -11,12 +11,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3  # Use the latest version for compatibility with Node.js 20
+        uses: actions/checkout@v3
         
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4  # Use the latest version for compatibility with Node.js 20
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./collaborators-site  # Specify the directory to publish
-       
+      - name: Build and Deploy to GitHub Pages
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          
+          # Ensure you copy files from the correct directory
+          mkdir -p output  # Create output directory if it doesn't exist
+          cp -R collaborators/* output/  # Copy contents from collaborators directory to output
+
+          cd output
+          git init  # Initialize a new Git repository
+          git add .  # Stage all files
+          git commit -m "Deploy to GitHub Pages" || echo "No changes to commit"
+          git push --force https://${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages:gh-pages
+ 
 
